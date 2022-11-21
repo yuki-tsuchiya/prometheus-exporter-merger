@@ -26,11 +26,7 @@ func (m *merger) merge(ctx context.Context, w io.Writer) error {
 				fmt.Printf("get url: %s", source.url)
 				return nil
 			}
-			defer func(Body io.ReadCloser) {
-				err := Body.Close()
-				if err != nil {
-				}
-			}(resp.Body)
+			defer resp.Body.Close()
 			tp := new(expfmt.TextParser)
 			out, err := tp.TextToMetricFamilies(resp.Body)
 			if err != nil {
